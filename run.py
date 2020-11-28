@@ -165,11 +165,14 @@ class Engine:
                         self.draw_cells()
 
                 if event.key == pg.K_i:
+                    matrix = []
+                    for cell in self.matrix:
+                        matrix.append(cell.alive)
                     mp = list(pg.mouse.get_pos())
                     x, y = int(mp[0]/cell_size), int(mp[1]/cell_size)
                     index = (y * self.width) + x
                     #print("\n"*50)
-                    print("Alive:", self.matrix[index].alive, "\nNeighbors:", self.get_neighbors(self.matrix, index))
+                    print("Alive:", self.matrix[index].alive, "\nNeighbors:", self.get_neighbors(matrix, index))
 
     def apply_rules(self):
         # Get last generation
