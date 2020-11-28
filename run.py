@@ -128,7 +128,7 @@ class Engine:
                             c = Cell(x*cell_size, y*cell_size, bool(choice([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1])))
                             self.matrix.append(c)
                     self.draw_cells()
-                    print("\n"*50)
+                    #print("\n"*50)
                     print("Matrix randomized.")
 
                 if event.key == pg.K_c:
@@ -138,7 +138,7 @@ class Engine:
                         for x in range(self.width):
                             c = Cell(x*cell_size, y*cell_size, False)
                             self.matrix.append(c)
-                    print("\n"*50)
+                    #print("\n"*50)
                     print("Matrix reset.")
 
                 if event.key == pg.K_p:
@@ -146,7 +146,7 @@ class Engine:
                         self.paused = False
                     else:
                         self.paused = True
-                    print("\n"*50)
+                    #print("\n"*50)
                     print("Paused:", self.paused)
 
                 if event.key == pg.K_g:
@@ -154,13 +154,13 @@ class Engine:
                         self.grid = False
                     else:
                         self.grid = True
-                    print("\n"*50)
+                    #print("\n"*50)
                     print("Grid:", self.grid)
 
                 if event.key == pg.K_o:
                     if self.paused:
                         self.apply_rules()
-                        print("\n"*50)
+                        #print("\n"*50)
                         print("Generations:", self.generations)
                         self.draw_cells()
 
@@ -168,7 +168,7 @@ class Engine:
                     mp = list(pg.mouse.get_pos())
                     x, y = int(mp[0]/cell_size), int(mp[1]/cell_size)
                     index = (y * self.width) + x
-                    print("\n"*50)
+                    #print("\n"*50)
                     print("Alive:", self.matrix[index].alive, "\nNeighbors:", self.get_neighbors(self.matrix, index))
 
     def apply_rules(self):
