@@ -38,6 +38,9 @@ class Engine:
         self.matrix = []
         self.generations = 0
 
+        self.selected = 0
+        self.templates = []
+
         self.screen = None
         self.clock = None
 
@@ -49,6 +52,9 @@ class Engine:
             for x in range(self.width):
                 c = Cell(x*cell_size, y*cell_size, False)
                 self.matrix.append(c)
+
+        for key in template:
+            self.templates.append(key)
 
         self.screen = pg.display.set_mode(window_size)
         self.clock = pg.time.Clock()
@@ -74,7 +80,7 @@ class Engine:
                 try:
                     index = ((y * self.width) + x) + i
                     if index != i:
-                        neighbors += int(matrix[index])#int(matrix[index].alive)
+                        neighbors += int(matrix[index])
                 except IndexError:
                     pass
         return neighbors
@@ -107,9 +113,9 @@ class Engine:
                 i = ((Y+y * self.width) + X+x)
                 self.matrix[i].alive = template[key]['matrix'][index]
 
-    def prefab(self, X, Y, key):
+    def prefab(self, X, Y):
         try:
-            for v in template[key]['vectors']:
+            for v in template[self.templates[self.selected]]['vectors']:
                 x = X+v[0]
                 y = Y+v[1]
                 i = ((y * self.width) + x)
@@ -145,6 +151,7 @@ class Engine:
 
                 if event.key == pg.K_r:
                     self.matrix.clear()
+                    self.generations = 0
                     for y in range(self.height):
                         for x in range(self.width):
                             c = Cell(x*cell_size, y*cell_size, bool(choice([0,0,0,0,0,0,0,0,0,1])))
@@ -160,6 +167,7 @@ class Engine:
                         for x in range(self.width):
                             c = Cell(x*cell_size, y*cell_size, False)
                             self.matrix.append(c)
+                    self.draw_cells()
                     #print("\n"*50)
                     print("Matrix reset.")
 
@@ -182,9 +190,9 @@ class Engine:
                 if event.key == pg.K_o:
                     if self.paused:
                         self.apply_rules()
-                        #print("\n"*50)
-                        print("Generations:", self.generations)
                         self.draw_cells()
+                    #print("\n"*50)
+                    print("Generations:", self.generations)
 
                 if event.key == pg.K_i:
                     matrix = []
@@ -196,34 +204,23 @@ class Engine:
                     #print("\n"*50)
                     print("Alive:", self.matrix[index].alive, "\nNeighbors:", self.get_neighbors(matrix, index))
 
-                if event.key == pg.K_0:
-                    mp = list(pg.mouse.get_pos())
-                    x, y = int(mp[0]/cell_size), int(mp[1]/cell_size)
-                    self.prefab(x, y, 'glider_gun')
                 if event.key == pg.K_1:
                     mp = list(pg.mouse.get_pos())
                     x, y = int(mp[0]/cell_size), int(mp[1]/cell_size)
-                    self.prefab(x, y, 'glider')
+                    self.prefab(x, y)
+                    self.draw_cells()
+                    #print("\n"*50)
+                    print("Spawned:", self.templates[self.selected])
                 if event.key == pg.K_2:
-                    mp = list(pg.mouse.get_pos())
-                    x, y = int(mp[0]/cell_size), int(mp[1]/cell_size)
-                    self.prefab(x, y, 'r')
+                    if self.selected > 0:
+                        self.selected -= 1
+                    #print("\n"*50)
+                    print("Selected:", self.templates[self.selected])
                 if event.key == pg.K_3:
-                    mp = list(pg.mouse.get_pos())
-                    x, y = int(mp[0]/cell_size), int(mp[1]/cell_size)
-                    self.prefab(x, y, 'acorn')
-                if event.key == pg.K_4:
-                    mp = list(pg.mouse.get_pos())
-                    x, y = int(mp[0]/cell_size), int(mp[1]/cell_size)
-                    self.prefab(x, y, 'diehard')
-                if event.key == pg.K_5:
-                    mp = list(pg.mouse.get_pos())
-                    x, y = int(mp[0]/cell_size), int(mp[1]/cell_size)
-                    self.prefab(x, y, 'ship')
-                if event.key == pg.K_9:
-                    mp = list(pg.mouse.get_pos())
-                    x, y = int(mp[0]/cell_size), int(mp[1]/cell_size)
-                    self.prefab(x, y, 'mandala')
+                    if self.selected < len(self.templates)-1:
+                        self.selected += 1
+                    #print("\n"*50)
+                    print("Selected:", self.templates[self.selected])
 
     def apply_rules(self):
         # Get last generation
