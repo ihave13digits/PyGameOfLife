@@ -3,7 +3,7 @@
 import pygame as pg
 from random import choice
 
-from var import template
+from var import get_template
 
 cell_size = 8
 window_size = (640, 640)
@@ -53,7 +53,7 @@ class Engine:
                 c = Cell(x*cell_size, y*cell_size, False)
                 self.matrix.append(c)
 
-        for key in template:
+        for key in get_template():
             self.templates.append(key)
 
         self.screen = pg.display.set_mode(window_size)
@@ -104,15 +104,15 @@ class Engine:
         pg.display.flip()
 
     def paste(self, X, Y, key):
-        for y in range(template[key]['height']):
-            for x in range(template[key]['width']):
-                index = ((y * template[key]['width']) + x)
+        for y in range(get_template()[key]['height']):
+            for x in range(get_template()[key]['width']):
+                index = ((y * get_template()[key]['width']) + x)
                 i = ((Y+y * self.width) + X+x)
-                self.matrix[i].alive = template[key]['matrix'][index]
+                self.matrix[i].alive = get_template()[key]['matrix'][index]
 
     def prefab(self, X, Y):
         try:
-            for v in template[self.templates[self.selected]]['vectors']:
+            for v in get_template()[self.templates[self.selected]]['vectors']:
                 x = X+v[0]
                 y = Y+v[1]
                 i = ((y * self.width) + x)
