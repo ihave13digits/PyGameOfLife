@@ -70,9 +70,6 @@ class Engine:
             self.event()
             self.update()
 
-    def get_selection(self):
-        pass
-
     def get_neighbors(self, matrix, i):
         neighbors = 0
         for y in range(-1, 2):
@@ -222,10 +219,14 @@ class Engine:
                     #print("\n"*50)
                     print("Selected:", self.templates[self.selected])
 
+    def get_matrix(self):
+        for cell in self.matrix:
+            yield cell
+
     def apply_rules(self):
         # Get last generation
         last_gen = []
-        for cell in self.matrix:
+        for cell in self.get_matrix():
             last_gen.append(cell.alive)
 
         # Apply rules
