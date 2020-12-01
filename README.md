@@ -11,3 +11,7 @@ Controls:
     O........Output
     G........Grid
     I........Info
+    
+    1........Spawn Selected
+    2........Decrease Selection Index
+    3........Increase Selection Index
