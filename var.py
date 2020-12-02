@@ -1,4 +1,5 @@
-template = {
+def get_template():
+    template = {
         'glider_gun' : {
             'width' : 36,
             'height' : 9,
@@ -129,3 +130,5 @@ template = {
                 [2,3],[3,3],[4,3]
                 ]},
         }
+
+    return template
