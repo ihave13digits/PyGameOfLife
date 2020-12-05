@@ -95,7 +95,7 @@ class Engine:
                 pg.draw.line(self.screen, (255, 255, 255, 128), (x, 0), (x, ds[1]))
             for y in range(0, ds[1], cell_size):
                 pg.draw.line(self.screen, (255, 255, 255, 128), (0, y), (ds[0], y))
-        pg.display.flip()
+            pg.display.flip()
 
     def draw_cells(self):
         for cell in self.matrix:
@@ -154,7 +154,6 @@ class Engine:
                             c = Cell(x*cell_size, y*cell_size, bool(choice([0,0,0,0,0,0,0,0,0,1])))
                             self.matrix.append(c)
                     self.draw_cells()
-                    #print("\n"*50)
                     print("Matrix randomized.")
 
                 if event.key == pg.K_c:
@@ -165,7 +164,6 @@ class Engine:
                             c = Cell(x*cell_size, y*cell_size, False)
                             self.matrix.append(c)
                     self.draw_cells()
-                    #print("\n"*50)
                     print("Matrix reset.")
 
                 if event.key == pg.K_p:
@@ -173,7 +171,6 @@ class Engine:
                         self.paused = False
                     else:
                         self.paused = True
-                    #print("\n"*50)
                     print("Paused:", self.paused)
 
                 if event.key == pg.K_g:
@@ -181,14 +178,12 @@ class Engine:
                         self.grid = False
                     else:
                         self.grid = True
-                    #print("\n"*50)
                     print("Grid:", self.grid)
 
                 if event.key == pg.K_o:
                     if self.paused:
                         self.apply_rules()
                         self.draw_cells()
-                    #print("\n"*50)
                     print("Generations:", self.generations)
 
                 if event.key == pg.K_i:
@@ -198,7 +193,6 @@ class Engine:
                     mp = list(pg.mouse.get_pos())
                     x, y = int(mp[0]/cell_size), int(mp[1]/cell_size)
                     index = (y * self.width) + x
-                    #print("\n"*50)
                     print("Alive:", self.matrix[index].alive, "\nNeighbors:", self.get_neighbors(matrix, index))
 
                 if event.key == pg.K_1:
@@ -206,17 +200,14 @@ class Engine:
                     x, y = int(mp[0]/cell_size), int(mp[1]/cell_size)
                     self.prefab(x, y)
                     self.draw_cells()
-                    #print("\n"*50)
                     print("Spawned:", self.templates[self.selected])
                 if event.key == pg.K_2:
                     if self.selected > 0:
                         self.selected -= 1
-                    #print("\n"*50)
                     print("Selected:", self.templates[self.selected])
                 if event.key == pg.K_3:
                     if self.selected < len(self.templates)-1:
                         self.selected += 1
-                    #print("\n"*50)
                     print("Selected:", self.templates[self.selected])
 
     def get_matrix(self):
